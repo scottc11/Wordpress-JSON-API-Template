@@ -1,0 +1,12 @@
+.blog-container {
+  background-color: rgb(100, 105, 0);
+  text-align: center;
+  width: auto;
+  height: 400px;
+}
+
+.post-container {
+  background-color: rgb(17, 165, 221);
+  color: white;
+  border: 1px dashed white;
+}
