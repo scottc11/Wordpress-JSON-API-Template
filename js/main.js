@@ -26,18 +26,19 @@ $(document).ready(function() {
   jsonData = $.getValues("http://frommusictocode.com/wp-json/wp/v2/posts/");  // get all posts
 
   postData = jsonData[0]; // return the most recent post
-  console.log(postData);
 
+  loadContent();
+});
+
+function loadContent() {
   // assign variable to jquery request so you only have to do it once
   var $postContainer = $('.post-container');
-
-  $postContainer.children('.post-date').text(postData.date);  // set date of post in the p element
-
-  $postContainer.children('.post-content').text(postData.content.rendered);  // set the content of the post inside the p element
-
   postImageURL = getImageURL(postData.content.rendered);  // get the first image within the post
+  $postContainer.css('background-image', 'url(' + postImageURL + ')');
 
-});
+  // $postContainer.children('.post-date').text(postData.date);  // set date of post in the p element
+  // $postContainer.children('.post-content').text(postData.content.rendered);  // set the content of the post inside the p element
+}
 
 function getImageURL(renderedHTML) {
   var imageURL_1 = renderedHTML.split("<img"); // find the first "<img>" tag
