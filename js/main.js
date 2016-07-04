@@ -1,8 +1,7 @@
 
-var jsonData;
+var jsonData;  // URL response
 var latestPost;
-var mediaData;
-var postImage;
+var mediaData; // URL response
 
 
 // when page is fully loaded, get wordpress posts
@@ -27,32 +26,32 @@ $(document).ready(function() {
 
   jsonData = $.getValues("http://frommusictocode.com/wp-json/wp/v2/posts/");  // get all posts
   mediaData = $.getValues("http://frommusictocode.com/wp-json/wp/v2/media/");  // get all posts
-  console.log("<-----POST DATA----->");
-  console.log(jsonData);
-  console.log("<-----MEDIA DATA----->");
-  console.log(mediaData);
 
-  latestPost = jsonData[0]; // return the most recent post (always the first in the array of posts)
-  latestPostMedia = getPostMedia(latestPost, mediaData);
+  // OBTAIN LATEST POST DATA (text and image)
+  latestPost = jsonData[1]; // return the most recent post (always the first in the array of posts)
+  latestPostMedia = getPostMedia(latestPost, mediaData); // Get latest post media
 
-  loadContent(latestPost);
+  loadContent(latestPost, latestPostMedia);
 });
 
+// Getting the latest post media by iterating through each media and pairing it with the post ID.
 function getPostMedia(post, media) {
   for (var i = 0; i < media.length; i++) {
     if (media[i].post == post.id) {
-      postImage = media[i];
+      console.log(media[i]);
+      return media[i];
     }
   }
 }
 
-function loadContent(post) {
-
+// LOADING CONTENT INTO HTML ELEMENTS
+function loadContent(post, media) {
+  console.log(post);
   // assign variable to jquery request so you only have to do it once
   var $postContainer = $('.post-container');
 
-  // FILL IN HTML ELEMENTS
-  $postContainer.css('background-image', 'url(' + postImage.source_url + ')');
-  $postContainer.children('.post-title').text(post.title);
-  $postContainer.children('.post-date').text(post.date);  // set date of post in the p element
+  // Fill in the html elements
+  $postContainer.css('background-image', 'url(' + media.media_details.sizes.large.source_url + ')');
+  $postContainer.children('.post-title').text(post.title.rendered);
+  $postContainer.children('.post-date').text(post.date);
 }
