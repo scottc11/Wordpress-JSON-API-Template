@@ -13,5 +13,15 @@
   color: white;
   width: auto;
   height: 400px;
+  padding: 20px;
   border: 1px dashed white;
+}
+
+.post-header {
+  display: block;
+  background-color: white;
+  color: black;
+  margin-right: auto;
+  text-align: left;
+  padding: 10px;
 }

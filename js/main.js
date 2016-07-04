@@ -35,8 +35,8 @@ function loadContent() {
   var $postContainer = $('.post-container');
   postImageURL = getImageURL(postData.content.rendered);  // get the first image within the post
   $postContainer.css('background-image', 'url(' + postImageURL + ')');
-
-  // $postContainer.children('.post-date').text(postData.date);  // set date of post in the p element
+  $postContainer.children('.post-title').text(postData.title);
+  $postContainer.children('.post-date').text(postData.date);  // set date of post in the p element
   // $postContainer.children('.post-content').text(postData.content.rendered);  // set the content of the post inside the p element
 }
 
