@@ -1,7 +1,9 @@
 
 var jsonData;
-var postData;
-var postImageURL;
+var latestPost;
+var mediaData;
+var postImage;
+
 
 // when page is fully loaded, get wordpress posts
 $(document).ready(function() {
@@ -24,28 +26,33 @@ $(document).ready(function() {
   });
 
   jsonData = $.getValues("http://frommusictocode.com/wp-json/wp/v2/posts/");  // get all posts
+  mediaData = $.getValues("http://frommusictocode.com/wp-json/wp/v2/media/");  // get all posts
+  console.log("<-----POST DATA----->");
+  console.log(jsonData);
+  console.log("<-----MEDIA DATA----->");
+  console.log(mediaData);
 
-  postData = jsonData[0]; // return the most recent post
+  latestPost = jsonData[0]; // return the most recent post (always the first in the array of posts)
+  latestPostMedia = getPostMedia(latestPost, mediaData);
 
-  loadContent();
+  loadContent(latestPost);
 });
 
-function loadContent() {
-  // assign variable to jquery request so you only have to do it once
-  var $postContainer = $('.post-container');
-  postImageURL = getImageURL(postData.content.rendered);  // get the first image within the post
-  $postContainer.css('background-image', 'url(' + postImageURL + ')');
-  $postContainer.children('.post-title').text(postData.title);
-  $postContainer.children('.post-date').text(postData.date);  // set date of post in the p element
-  // $postContainer.children('.post-content').text(postData.content.rendered);  // set the content of the post inside the p element
+function getPostMedia(post, media) {
+  for (var i = 0; i < media.length; i++) {
+    if (media[i].post == post.id) {
+      postImage = media[i];
+    }
+  }
 }
 
-function getImageURL(renderedHTML) {
-  var imageURL_1 = renderedHTML.split("<img"); // find the first "<img>" tag
-  var imageURL_2  = imageURL_1[1].split('src="');  // find the "scr" of the returned <img> tag
-  var imageURL_3  = imageURL_2[1].split(' ');  // split the remaining html content after the 'src' (image url)
-  var imageURL = imageURL_3[0].substring(0, imageURL_3[0].lastIndexOf('"'));  // return a string between index [0] of image url and the last quotation on the end of the url
-  console.log(imageURL);
-  console.log(typeof imageURL);
-  return imageURL;
+function loadContent(post) {
+
+  // assign variable to jquery request so you only have to do it once
+  var $postContainer = $('.post-container');
+
+  // FILL IN HTML ELEMENTS
+  $postContainer.css('background-image', 'url(' + postImage.source_url + ')');
+  $postContainer.children('.post-title').text(post.title);
+  $postContainer.children('.post-date').text(post.date);  // set date of post in the p element
 }
