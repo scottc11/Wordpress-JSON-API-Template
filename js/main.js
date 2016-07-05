@@ -54,8 +54,8 @@ function loadContent(post, media) {
 
   // Fill in the html elements
   $postContainer.css('background-image', 'url(' + media.media_details.sizes.large.source_url + ')');
-  $postContainer.children('.post-title').text(post.title.rendered);
-  $postContainer.children('.post-date').text(dateString);
+  $postContainer.children('.post-header-container').children('.post-title').text(post.title.rendered);
+  $postContainer.children('.post-header-container').children('.post-date').text(dateString);
 
 
 }

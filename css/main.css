@@ -18,10 +18,17 @@
   border: 1px dashed white;
 }
 
+.post-header-container {
+  display: block;
+  background-color: rgba(0, 0, 0, 0);
+  margin: 10px 0 10px 0;
+}
+
 .post-header {
   display: inline-block;
   background-color: white;
   color: black;
+  margin: 0;
   text-align: left;
   padding: 10px;
 }
