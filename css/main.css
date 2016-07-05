@@ -1,7 +1,11 @@
+
+
+
 .blog-container {
-  background-color: rgb(30, 150, 182);
+  box-sizing: border-box;
   text-align: center;
   height: auto;
+  border: 1px dashed black;
 }
 
 .post-container {
@@ -15,7 +19,11 @@
   height: 400px;
   padding: 20px;
   text-align: left;
-  border: 1px dashed white;
+
+}
+
+.header-container {
+  padding-top: 35%;
 }
 
 .post-header-container {
