@@ -28,7 +28,7 @@ $(document).ready(function() {
   mediaData = $.getValues("http://frommusictocode.com/wp-json/wp/v2/media/");  // get all posts
 
   // OBTAIN LATEST POST DATA (text and image)
-  latestPost = jsonData[1]; // return the most recent post (always the first in the array of posts)
+  latestPost = jsonData[2]; // return the most recent post (always the first in the array of posts)
   latestPostMedia = getPostMedia(latestPost, mediaData); // Get latest post media
 
   loadContent(latestPost, latestPostMedia);

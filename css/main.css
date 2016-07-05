@@ -23,7 +23,8 @@
 }
 
 .header-container {
-  padding-top: 35%;
+  position: relative;
+  top: 0;
 }
 
 .post-header-container {
