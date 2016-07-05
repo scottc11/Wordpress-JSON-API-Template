@@ -1,4 +1,6 @@
 
+"use strict";
+
 var jsonData;  // URL response
 var latestPost;
 var mediaData; // URL response
@@ -6,6 +8,7 @@ var mediaData; // URL response
 
 // when page is fully loaded, get wordpress posts
 $(document).ready(function() {
+
 
   // below function retrieves/interacts with the WP API
   jQuery.extend({
@@ -24,18 +27,26 @@ $(document).ready(function() {
       }
   });
 
+
   jsonData = $.getValues("http://frommusictocode.com/wp-json/wp/v2/posts/");  // get all posts
   mediaData = $.getValues("http://frommusictocode.com/wp-json/wp/v2/media/");  // get all posts
 
+
   // OBTAIN LATEST POST DATA (text and image)
-  latestPost = jsonData[2]; // return the most recent post (always the first in the array of posts)
-  latestPostMedia = getPostMedia(latestPost, mediaData); // Get latest post media
+  latestPost = jsonData[3]; // return the most recent post (always the first in the array of posts)
+  var latestPostMedia = getPostMedia(latestPost, mediaData); // Get latest post media
+
 
   loadContent(latestPost, latestPostMedia);
+
+
 });
+
+
 
 // Getting the latest post media by iterating through each media and pairing it with the post ID.
 function getPostMedia(post, media) {
+  console.log(media);
   for (var i = 0; i < media.length; i++) {
     if (media[i].post == post.id) {
       console.log(media[i]);
@@ -43,6 +54,9 @@ function getPostMedia(post, media) {
     }
   }
 }
+
+
+
 
 // LOADING CONTENT INTO HTML ELEMENTS
 function loadContent(post, media) {
@@ -53,12 +67,22 @@ function loadContent(post, media) {
   var dateString = dateConverter(post.date);
 
   // Fill in the html elements
-  $postContainer.css('background-image', 'url(' + media.media_details.sizes.large.source_url + ')');
+
+  // error handle image to make sure there is one.
+  try {
+    $postContainer.css('background-image', 'url(' + media.media_details.sizes.large.source_url + ')');
+  }
+  catch(err) {
+    $postContainer.css('background-image', 'url("http://www.peterboltonphotoart.com/imgs/news/4852_9795921834e08b61b24f02.jpg")');
+  }
+
   $('#post-title').text(post.title.rendered);
   $('#post-date').text(dateString);
 
 
 }
+
+
 
 // returns a string of the given dateObject retrieved from wordpress by using the built in Date() methods in javascript
 function dateConverter(wordpressDate) {
@@ -69,11 +93,7 @@ function dateConverter(wordpressDate) {
               "November", "December"
             ];
   var date = new Date(wordpressDate);
-  dateString = date.getDate() + " " + months[date.getMonth()] + ", " + date.getFullYear();
-  console.log(date);
-  console.log(typeof date);
-  console.log("<------STRING----->");
-  console.log(dateString);
+  var dateString = date.getDate() + " " + months[date.getMonth()] + ", " + date.getFullYear();
 
   return dateString;
 }
