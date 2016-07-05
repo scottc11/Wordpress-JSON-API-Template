@@ -50,8 +50,30 @@ function loadContent(post, media) {
   // assign variable to jquery request so you only have to do it once
   var $postContainer = $('.post-container');
 
+  var dateString = dateConverter(post.date);
+
   // Fill in the html elements
   $postContainer.css('background-image', 'url(' + media.media_details.sizes.large.source_url + ')');
   $postContainer.children('.post-title').text(post.title.rendered);
-  $postContainer.children('.post-date').text(post.date);
+  $postContainer.children('.post-date').text(dateString);
+
+
+}
+
+// returns a string of the given dateObject retrieved from wordpress by using the built in Date() methods in javascript
+function dateConverter(wordpressDate) {
+  var months = [
+              "January", "February", "March",
+              "April", "May", "June", "July",
+              "August", "September", "October",
+              "November", "December"
+            ];
+  var date = new Date(wordpressDate);
+  dateString = date.getDate() + " " + months[date.getMonth()] + ", " + date.getFullYear();
+  console.log(date);
+  console.log(typeof date);
+  console.log("<------STRING----->");
+  console.log(dateString);
+
+  return dateString;
 }
